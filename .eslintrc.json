@@ -1,3 +1,587 @@
 {
-  "extends": "next/core-web-vitals"
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "react",
+    "react-hooks",
+    "import",
+    "sonarjs",
+    "unicorn",
+    "unused-imports",
+    "prettier"
+  ],
+  "ignorePatterns": [
+    "build",
+    ".*.js",
+    "*.config.js",
+    "node_modules",
+    "scripts",
+    "config",
+    "dist",
+    "*.d.ts"
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "mocha": true,
+    "es2020": true
+  },
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:import/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    "plugin:jsx-a11y/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:sonarjs/recommended",
+    "plugin:unicorn/recommended",
+    // Enable when all of our apps will use React 17
+    // "plugin:react/jsx-runtime",
+    "prettier"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "prettier/prettier": [
+      "warn",
+      {
+        "bracketSpacing": true,
+        "printWidth": 100,
+        "singleQuote": true,
+        "tabWidth": 4,
+        "trailingComma": "all",
+        "arrowParens": "avoid",
+        "endOfLine": "auto"
+      }
+    ],
+    "array-callback-return": [
+      "error",
+      {
+        "allowImplicit": true
+      }
+    ],
+    "unused-imports/no-unused-imports": "warn",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "arrow-body-style": [
+      "error",
+      "as-needed"
+    ],
+    "arrow-parens": [
+      "error",
+      "as-needed"
+    ],
+    "arrow-spacing": "error",
+    "brace-style": "off", // disabled in favor of @typescript-eslint rule
+    "camelcase": "off", ///It seems you need to think about the style to use or its lipo underline for naming variables.
+    "class-methods-use-this": "error",
+    "comma-dangle": "off", // disabled in favor of @typescript-eslint rule
+    "comma-spacing": "off", // disabled in favor of @typescript-eslint rule
+    "complexity": "off", //disabled in favor of sonarjs/cognitive-complexity
+    "curly": "error",
+    "default-case-last": "error",
+    "default-case": "error",
+    "default-param-last": "off", // disabled in favor of @typescript-eslint rule
+    "dot-notation": "off", // disabled in favor of @typescript-eslint rule
+    "eol-last": [
+      "error",
+      "always"
+    ],
+    "eqeqeq": "error",
+    "func-call-spacing": "off", // disabled in favor of @typescript-eslint rule
+    "func-names": [
+      "error",
+      "as-needed"
+    ], //Need refactoring memoize
+    "getter-return": "error",
+    "guard-for-in": "error",
+    "indent": "off", // disabled in favor of @typescript-eslint rule
+    "init-declarations": "off", // disabled in favor of @typescript-eslint rule
+    "keyword-spacing": "off", // disabled in favor of @typescript-eslint rule,
+    "linebreak-style": "off",
+    "lines-between-class-members": "off", // disabled in favor of @typescript-eslint rule
+    "max-depth": [
+      "error",
+      3
+    ],
+    "max-len": [
+      "error",
+      {
+        "code": 120,
+        "ignoreComments": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true
+      }
+    ],
+    "max-nested-callbacks": [
+      "error",
+      3
+    ],
+    "max-params": [
+      "error",
+      4
+    ],
+    "no-await-in-loop": "error",
+    "no-bitwise": "error",
+    "no-console": "warn",
+    "no-debugger": "warn",
+    "no-continue": "error",
+    "no-dupe-class-members": "off", // disabled in favor of @typescript-eslint rule
+    "no-duplicate-imports": "off", // disabled in favor of @typescript-eslint rule
+    "no-else-return": "error",
+    "no-empty-function": "off", // disabled in favor of @typescript-eslint rule
+    "no-extra-parens": "off", // disabled in favor of @typescript-eslint rule
+    "no-loop-func": "off", // disabled in favor of @typescript-eslint rule
+    "no-magic-numbers": "off",
+    "no-nested-ternary": "error",
+    "no-param-reassign": "error", //Bad code style.
+    "no-plusplus": [
+      "error",
+      {
+        "allowForLoopAfterthoughts": true
+      }
+    ],
+    "no-promise-executor-return": "error",
+    "no-prototype-builtins": "off",
+    "no-redeclare": "off", // disabled in favor of @typescript-eslint rule
+    "no-restricted-imports": "off", // disabled in favor of @typescript-eslint rule
+    "no-return-assign": "error",
+    "no-return-await": "off", // disabled in favor of @typescript-eslint rule
+    "no-self-compare": "error",
+    "no-shadow": "off", // disabled in favor of @typescript-eslint rule
+    "no-unneeded-ternary": "error",
+    "no-unused-expressions": "off", // disabled in favor of @typescript-eslint rule
+    "no-unused-vars": "off", // disabled in favor of @typescript-eslint rule
+    "no-use-before-define": "off", // disabled in favor of @typescript-eslint rule
+    "no-useless-rename": "error",
+    "no-useless-return": "error",
+    "no-var": "error",
+    "object-curly-newline": [
+      "off",
+      {
+        "multiline": true
+      }
+    ],
+    "object-curly-spacing": "off", // disabled in favor of @typescript-eslint rule
+    "padding-line-between-statements": "off", // disabled in favor of @typescript-eslint rule
+    "prefer-arrow-callback": "error",
+    "prefer-const": [
+      "error",
+      {
+        "destructuring": "all"
+      }
+    ],
+    "prefer-destructuring": [
+      "error",
+      {
+        "object": true,
+        "array": true
+      }
+    ],
+    "prefer-rest-params": "error",
+    "quotes": "off", // disabled in favor of @typescript-eslint rule
+    "radix": "error",
+    "require-await": "off", // disabled in favor of @typescript-eslint rule
+    "semi": "off", // disabled in favor of @typescript-eslint rule
+    "space-before-function-paren": "off", // disabled in favor of @typescript-eslint rule
+    "yoda": "error",
+    "import/default": "off",
+    "import/no-useless-path-segments": [
+      "error",
+      {
+        "noUselessIndex": true
+      }
+    ],
+    "import/no-duplicates": 2,
+    "import/order": [
+      "error",
+      {
+        "newlines-between": "always"
+      }
+    ],
+    "import/no-extraneous-dependencies": "off",
+    "import/no-cycle": "off",
+    "import/no-named-as-default-member": "off",
+    "import/no-dublicates": "off",
+    "import/no-self-import": "off",
+    "import/extensions": "off",
+    "import/prefer-default-export": "off",
+    "import/no-named-as-default": "off",
+    "import/no-unresolved": "off",
+    "react/default-props-match-prop-types": "off",
+    "react/destructuring-assignment": [
+      2,
+      "always"
+    ],
+    "react/display-name": [
+      0
+    ],
+    "react/jsx-filename-extension": [
+      "warn",
+      {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
+      }
+    ],
+    // Prettier-eslint we have a conflicts in some cases, so off
+    // Prettier do it as well, coz we use tabWidth: 4, change this prettier options, not this rules
+    "react/jsx-indent-props": "off",
+    "react/jsx-indent": "off",
+    "react/jsx-no-useless-fragment": [
+      "error",
+      {
+        "allowExpressions": true
+      }
+    ],
+    "react/jsx-one-expression-per-line": "off", // doesn"t work properly on Windows 10
+    "react/jsx-props-no-multi-spaces": "error",
+    "react/jsx-props-no-spreading": "off",
+    "react/no-array-index-key": "error",
+    "react/no-children-prop": "error",
+    "react/no-danger": "warn",
+    "react/no-find-dom-node": "error",
+    "react/no-multi-comp": "error",
+    "react/no-unescaped-entities": "warn",
+    "react/no-unstable-nested-components": "error",
+    "react/prefer-stateless-function": "off",
+    "react/prop-types": "off", //Bad code style
+    "react/react-in-jsx-scope": "off", // React 17
+    "react/require-default-props": "off",
+    "react/self-closing-comp": "error",
+    "react/sort-comp": [
+      "warn",
+      {
+        "order": [
+          "type-annotations",
+          "static-methods",
+          "lifecycle",
+          "everything-else",
+          "render"
+        ]
+      }
+    ],
+    "react/jsx-curly-brace-presence": [
+      "warn",
+      {
+        "props": "never",
+        "children": "never",
+        "propElementValues": "always"
+      }
+    ],
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/brace-style": [
+      "error",
+      "1tbs"
+    ],
+    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
+    "@typescript-eslint/comma-spacing": [
+      "error",
+      {
+        "before": false,
+        "after": true
+      }
+    ],
+    "@typescript-eslint/consistent-indexed-object-style": [
+      "error",
+      "record"
+    ],
+    "@typescript-eslint/consistent-type-definitions": [
+      "error",
+      "interface"
+    ],
+    "@typescript-eslint/default-param-last": "error",
+    "@typescript-eslint/dot-notation": [
+      "error"
+    ],
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/func-call-spacing": [
+      "error",
+      "never"
+    ],
+    "@typescript-eslint/indent": "off",
+    "@typescript-eslint/keyword-spacing": [
+      "error"
+    ],
+    "@typescript-eslint/lines-between-class-members": [
+      "error",
+      "always",
+      {
+        "exceptAfterSingleLine": true
+      }
+    ],
+    "@typescript-eslint/no-dupe-class-members": [
+      "error"
+    ],
+    "@typescript-eslint/no-duplicate-imports": [
+      "error"
+    ],
+    "@typescript-eslint/no-dynamic-delete": "error",
+    "@typescript-eslint/no-empty-function": "warn",
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-invalid-void-type": "error",
+    "@typescript-eslint/no-loop-func": "error",
+    "@typescript-eslint/no-meaningless-void-operator": "error",
+    "@typescript-eslint/no-non-null-asserted-nullish-coalescing": "warn",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-redeclare": "error",
+    "@typescript-eslint/no-require-imports": "error",
+    "@typescript-eslint/no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "lodash",
+            "importNames": [
+              "get"
+            ],
+            "message": "Please use utils/safeGet instead."
+          },
+          {
+            "name": "lodash/get",
+            "message": "Please use utils/safeGet instead."
+          }
+        ],
+        "patterns": [
+          {
+            "group": [
+              "@flowhealth/*/*"
+            ],
+            "message": "Do not refer to the internal structure of this module"
+          }
+        ]
+      }
+    ],
+    "@typescript-eslint/no-shadow": "error",
+    "@typescript-eslint/no-unnecessary-boolean-literal-compare": "error",
+    "@typescript-eslint/no-unnecessary-condition": "off",
+    "@typescript-eslint/no-unnecessary-type-arguments": "error",
+    "@typescript-eslint/no-unused-expressions": [
+      "error"
+    ],
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-use-before-define": "error",
+    "@typescript-eslint/no-var-requires": "error",
+    "@typescript-eslint/object-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "@typescript-eslint/padding-line-between-statements": [
+      "error",
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": [
+          "interface",
+          "type",
+          "block-like",
+          "return",
+          "multiline-block-like",
+          "throw",
+          "try"
+        ]
+      }
+    ],
+    "@typescript-eslint/prefer-includes": "error",
+    "@typescript-eslint/prefer-nullish-coalescing": "error",
+    "@typescript-eslint/prefer-optional-chain": "error",
+    "@typescript-eslint/prefer-string-starts-ends-with": "error",
+    "@typescript-eslint/quotes": [
+      "error",
+      "single"
+    ],
+    "@typescript-eslint/require-await": "error",
+    "@typescript-eslint/return-await": [
+      "error",
+      "never"
+    ],
+    "@typescript-eslint/semi": [
+      "error",
+      "always"
+    ],
+    "@typescript-eslint/space-before-function-paren": [
+      "error",
+      {
+        "anonymous": "never",
+        "named": "never",
+        "asyncArrow": "always"
+      }
+    ],
+    "@typescript-eslint/ban-types": [
+      "warn",
+      {
+        "types": {
+          "React.FC": "React.FC now allowed by style guide, see https://flowhealth.atlassian.net/wiki/spaces/TS/pages/1715044412/FE+style+guide?focusedCommentId=1716912163#Typings",
+          "React.VFC": "React.VFC now allowed by style guide, see https://flowhealth.atlassian.net/wiki/spaces/TS/pages/1715044412/FE+style+guide?focusedCommentId=1716912163#Typings",
+          "FC": "FC now allowed by style guide, see https://flowhealth.atlassian.net/wiki/spaces/TS/pages/1715044412/FE+style+guide?focusedCommentId=1716912163#Typings",
+          "VFC": "VFC now allowed by style guide, see https://flowhealth.atlassian.net/wiki/spaces/TS/pages/1715044412/FE+style+guide?focusedCommentId=1716912163#Typings"
+        }
+      }
+    ],
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "components": [
+          "Link"
+        ],
+        "specialLink": [
+          "to"
+        ]
+      }
+    ],
+    "jsx-a11y/aria-role": [
+      2,
+      {
+        "ignoreNonDOM": true
+      }
+    ],
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/mouse-events-have-key-events": "off",
+    "jsx-a11y/no-autofocus": "off",
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "jsx-a11y/no-noninteractive-tabindex": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "unicorn/filename-case": "off",
+    "unicorn/prevent-abbreviations": [
+      "error",
+      {
+        "replacements": {
+          "str": {
+            "string": false
+          },
+          "acc": {
+            "accumulator": false
+          },
+          "args": {
+            "arguments": false
+          },
+          "param": {
+            "parameter": false
+          },
+          "i": {
+            "index": false
+          },
+          "ctx": {
+            "context": false
+          },
+          "num": {
+            "number": false
+          },
+          "tmp": {
+            "temp": true,
+            "temporary": false
+          },
+          "temp": {
+            "temporary": false
+          },
+          "func": {
+            "function": false
+          },
+          "params": {
+            "parameters": false
+          },
+          "prop": {
+            "property": false
+          },
+          "props": {
+            "properties": false
+          },
+          "ref": {
+            "reference": false
+          },
+          "arr": {
+            "array": false
+          },
+          "prevState": {
+            "previousState": false
+          }
+        }
+      }
+    ],
+    "unicorn/numeric-separators-style": "off",
+    "unicorn/no-array-for-each": "off",
+    "unicorn/no-array-reduce": "off",
+    "unicorn/no-null": "off",
+    "unicorn/prefer-dom-node-append": "off",
+    "unicorn/prefer-code-point": "off",
+    "unicorn/prefer-query-selector": "off",
+    "unicorn/require-array-join-separator": "off",
+    "unicorn/prefer-dom-node-remove": "off",
+    "unicorn/prefer-dom-node-text-content": "off",
+    "unicorn/prefer-regexp-test": "off"
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.test.js",
+        "*.test.jsx",
+        "*.test.ts",
+        "*.test.tsx",
+        "*.spec.js",
+        "*.spec.jsx",
+        "*.spec.ts",
+        "*.spec.tsx"
+      ],
+      "rules": {
+        "@typescript-eslint/no-empty-function": "off",
+        "@typescript-eslint/init-declarations": "off",
+        "unicorn/no-useless-undefined": "off",
+        "unicorn/consistent-function-scoping": "off",
+        "unicorn/prefer-node-protocol": "off",
+        "unicorn/error-message": "off"
+      }
+    },
+    {
+      "files": [
+        "*.js",
+        "*.jsx"
+      ],
+      "rules": {
+        "@typescript-eslint/explicit-function-return-type": "off"
+      }
+    },
+    {
+      "files": [
+        "*.stories.tsx"
+      ],
+      "rules": {
+        "unicorn/no-useless-undefined": "off"
+      }
+    },
+    {
+      "files": [
+        "styles.ts",
+        "styles.tsx"
+      ],
+      "rules": {
+        "sonarjs/no-duplicate-string": "off"
+      }
+    }
+  ]
 }
