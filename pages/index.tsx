@@ -7,14 +7,15 @@ import Login from '../components/Login';
 import Sidebar from '../components/Sidebar';
 import Feed from '../components/Feed';
 import Widgets from '../components/Widgets';
-
-// import { db as database } from '../firebase';
+import { database } from '../firebase';
+import { IPost } from '../components/Posts';
 
 interface HomeProps {
     session: Session | null;
+    posts: IPost[];
 }
 
-export default function Home({ session }: HomeProps) {
+export default function Home({ session, posts }: HomeProps) {
     if (!session) {
         return <Login />;
     }
@@ -29,8 +30,7 @@ export default function Home({ session }: HomeProps) {
 
             <main className="flex">
                 <Sidebar />
-                {/* <Feed posts={posts} /> */}
-                <Feed posts={[]} />
+                <Feed posts={posts} />
                 <Widgets />
             </main>
         </div>
@@ -41,18 +41,18 @@ export async function getServerSideProps(context: object) {
     // Get User
     const session = await getSession(context);
 
-    // const posts = await database.collection('posts').orderBy('timestamp', 'desc').get();
+    const posts = await database.collection('posts').orderBy('timestamp', 'desc').get();
 
-    // const docs = posts.docs.map(post => ({
-    //     id: post.id,
-    //     ...post.data(),
-    //     timestamp: null,
-    // }));
+    const documents = posts.docs.map(post => ({
+        id: post.id,
+        ...post.data(),
+        timestamp: null,
+    }));
 
     return {
         props: {
             session,
-            // posts: docs,
+            posts: documents,
         },
     };
 }

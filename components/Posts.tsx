@@ -1,21 +1,32 @@
-// import { useCollection } from 'react-firebase-hooks/firestore';
+import { useCollection } from 'react-firebase-hooks/firestore';
+import { Query, Timestamp } from 'firebase/firestore';
 
-// import { db as database } from '../firebase';
+import { database } from '../firebase';
 
-// import Post from './Post';
+import Post from './Post';
+
+export interface IPost {
+    id: string;
+    name: string;
+    message: string;
+    email: string;
+    postImage: string;
+    image: string;
+    timestamp: Timestamp;
+}
 
 interface PostsProps {
-    posts: string[];
+    posts: IPost[];
 }
 
 function Posts({ posts }: PostsProps) {
-    // const [realtimePosts, loading, error] = useCollection(
-    //     database.collection('posts').orderBy('timestamp', 'desc'),
-    // );
+    const [realtimePosts, loading, error] = useCollection(
+        database.collection('posts').orderBy('timestamp', 'desc') as unknown as Query,
+    );
 
     return (
         <div>
-            {/* {realtimePosts
+            {realtimePosts
                 ? realtimePosts?.docs.map(post => (
                       <Post
                           key={post.id}
@@ -37,7 +48,7 @@ function Posts({ posts }: PostsProps) {
                           image={post.image}
                           postImage={post.postImage}
                       />
-                  ))} */}
+                  ))}
         </div>
     );
 }

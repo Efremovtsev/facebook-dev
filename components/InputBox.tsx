@@ -2,10 +2,11 @@ import { EmojiHappyIcon } from '@heroicons/react/outline';
 import { CameraIcon, VideoCameraIcon } from '@heroicons/react/solid';
 import { useSession } from 'next-auth/react';
 import { ChangeEventHandler, MouseEventHandler, useRef, useState } from 'react';
+import firebase from 'firebase/compat/app';
 // import firebase from 'firebase';
 import Image from 'next/image';
 
-// import { db as database, storage } from '../firebase';
+import { database, storage } from '../firebase';
 
 function InputBox() {
     const { data: session } = useSession();
@@ -17,55 +18,59 @@ function InputBox() {
         return null;
     }
 
+    const removeImage = () => {
+        setImageToPost(null);
+    };
+
     const sendPost: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
 
-        if (!inputRef.current?.value) {
+        if (!inputRef.current?.value || !session?.user) {
             return;
         }
 
-        // database
-        //     .collection('posts')
-        //     .add({
-        //         message: inputRef.current?.value,
-        //         name: session.user.name,
-        //         email: session.user.email,
-        //         image: session.user.image,
-        //         // timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        //     })
-        //     .then(document_ => {
-        //         if (imageToPost) {
-        //             const uploadTask = storage
-        //                 .ref(`posts/${document_.id}`)
-        //                 .putString(imageToPost, 'data_url');
+        database
+            .collection('posts')
+            .add({
+                message: inputRef.current?.value,
+                name: session.user.name,
+                email: session.user.email,
+                image: session.user.image,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            })
+            .then(_document => {
+                if (imageToPost) {
+                    const uploadTask = storage
+                        .ref(`posts/${_document.id}`)
+                        .putString(imageToPost, 'data_url');
 
-        //             removeImage();
+                    removeImage();
 
-        //             uploadTask.on(
-        //                 'state_changed',
-        //                 null,
-        //                 error => {
-        //                     // ERROR function
-        //                     console.log(error);
-        //                 },
-        //                 () => {
-        //                     // COMPLETE function
-        //                     storage
-        //                         .ref('posts')
-        //                         .child(document_.id)
-        //                         .getDownloadURL()
-        //                         .then(url => {
-        //                             database.collection('posts').doc(document_.id).set(
-        //                                 {
-        //                                     postImage: url,
-        //                                 },
-        //                                 { merge: true },
-        //                             );
-        //                         });
-        //                 },
-        //             );
-        //         }
-        //     });
+                    uploadTask.on(
+                        'state_changed',
+                        null,
+                        error => {
+                            // ERROR function
+                            console.error(error);
+                        },
+                        () => {
+                            // COMPLETE function
+                            storage
+                                .ref('posts')
+                                .child(_document.id)
+                                .getDownloadURL()
+                                .then(url => {
+                                    database.collection('posts').doc(_document.id).set(
+                                        {
+                                            postImage: url,
+                                        },
+                                        { merge: true },
+                                    );
+                                });
+                        },
+                    );
+                }
+            });
 
         inputRef.current.value = '';
     };
@@ -80,10 +85,6 @@ function InputBox() {
         reader.addEventListener('load', readerEvent => {
             setImageToPost(readerEvent?.target?.result as string);
         });
-    };
-
-    const removeImage = () => {
-        setImageToPost(null);
     };
 
     return (
@@ -116,7 +117,8 @@ function InputBox() {
                         onClick={removeImage}
                         className="flex flex-col filter hover:brightness-110 transition duration-150 transform hover:scale-105 cursor-pointer"
                     >
-                        <Image className="h-10 object-contain " src={imageToPost} alt="" />
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img className="h-10 object-contain " src={imageToPost} alt="" />
                         <p className="text-xs text-red-500 text-center">Remove</p>
                     </div>
                 )}

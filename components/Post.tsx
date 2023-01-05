@@ -1,4 +1,5 @@
 import { ChatAltIcon, ShareIcon, ThumbUpIcon } from '@heroicons/react/outline';
+import { Timestamp } from 'firebase/firestore';
 import Image from 'next/image';
 
 interface PostProps {
@@ -7,20 +8,21 @@ interface PostProps {
     email: string;
     postImage: string;
     image: string;
-    timestamp: string;
+    timestamp: Timestamp;
 }
 
-function Post({ name, message, email, postImage, image, timestamp }: PostProps) {
+function Post({ name, message, postImage, image, timestamp }: PostProps) {
     return (
         <div className="flex flex-col">
             <div className="p-5 bg-white mt-5 rounded-t-2xl shadow-sm">
                 <div className="flex items-center space-x-2">
-                    <Image className="rounded-full" src={image} width={40} height={40} alt="" />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img className="rounded-full" src={image} width={40} height={40} alt="" />
                     <div>
                         <p className="font-medium">{name}</p>
                         {timestamp ? (
                             <p className="text-xs text-gray-400">
-                                {/* {new Date(timestamp?.toDate()).toLocaleString()} */}
+                                {new Date(timestamp.toDate()).toLocaleString()}
                             </p>
                         ) : (
                             <p className="text-xs text-gray-400">Loading</p>
